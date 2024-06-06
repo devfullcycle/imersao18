@@ -111,19 +111,6 @@ Chamadas do Golang para o Nest.js via API Gateway
 
 ## API 1
 
-### GET http://localhost:9000/api1/spots/:spotId
-
-Capturar um assento
-
-```json
-{
-    "id": 1,
-    "name": "A1",
-    "status": "available", //available, sold
-    "event_id": 1
-}
-```
-
 ### POST http://localhost:9000/api1/spots/:spotId/reserve
 
 Reservar um assento
@@ -135,7 +122,8 @@ Reservar um assento
     "name": "A1",
     "spots": ["A1", "A2"],
     "ticket_id": 10, //na API 1, o ticket_id = 10 é o ticket inteiro, o ticket_id = 20 é o ticket meia
-    "event_id": 1
+    "event_id": 1,
+    "email": "user1@test.com"    
 }
 ```
 
@@ -146,25 +134,13 @@ Reservar um assento
     "spots": ["A1", "A2"],
     "ticket_id": 10,
     "status": "reserved",
-    "event_id": 1
+    "event_id": 1,
+    "email": "user1@test.com"    
 }
 ```
 
 ## API 2
 
-### GET http://localhost:9000/api2/lugar/:lugarId
-
-Capturar um lugar
-
-```json
-{
-    "id": 1,
-    "lugares": ["A1", "A2"],
-    "tipo_ingresso": "inteira", //ou meia
-    "estado": "disponivel", //disponivel, reservado
-    "evento_id": 1
-}
-```
 
 ### POST http://localhost:9000/api2/lugar/:lugarId/reservar
 
@@ -175,7 +151,8 @@ Reservar um lugar
 {
     "lugares": ["A1", "A2"],
     "tipo_ingresso": "inteira", //ou meia
-    "evento_id": 1
+    "evento_id": 1,
+    "email": "user2@test.com"    
 }
 ```
 
@@ -186,7 +163,8 @@ Reservar um lugar
     "lugares": ["A1", "A2"],
     "tipo_ingresso": "inteira", //ou meia
     "estado": "reservado", //disponivel, reservado
-    "evento_id": 1
+    "evento_id": 1,
+    "email": "user2@test.com"    
 }
 ```
 
