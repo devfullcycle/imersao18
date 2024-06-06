@@ -111,18 +111,15 @@ Chamadas do Golang para o Nest.js via API Gateway
 
 ## API 1
 
-### POST http://localhost:9000/api1/spots/:spotId/reserve
+### POST http://localhost:9000/api1/events/:eventId/reserve
 
 Reservar um assento
 
 - Request
 ```json
 {
-
-    "name": "A1",
     "spots": ["A1", "A2"],
     "ticket_id": 10, //na API 1, o ticket_id = 10 é o ticket inteiro, o ticket_id = 20 é o ticket meia
-    "event_id": 1,
     "email": "user1@test.com"    
 }
 ```
@@ -142,7 +139,7 @@ Reservar um assento
 ## API 2
 
 
-### POST http://localhost:9000/api2/lugar/:lugarId/reservar
+### POST http://localhost:9000/api2/eventos/:eventoId/reservar
 
 Reservar um lugar
 
@@ -151,7 +148,6 @@ Reservar um lugar
 {
     "lugares": ["A1", "A2"],
     "tipo_ingresso": "inteira", //ou meia
-    "evento_id": 1,
     "email": "user2@test.com"    
 }
 ```
