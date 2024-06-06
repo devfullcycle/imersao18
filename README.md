@@ -119,7 +119,7 @@ Reservar um assento
 ```json
 {
     "spots": ["A1", "A2"],
-    "ticket_id": 10, //na API 1, o ticket_id = 10 é o ticket inteiro, o ticket_id = 20 é o ticket meia
+    "ticket_id": full, //na API 1, o ticket_id = full é o ticket inteiro, o ticket_id = half é o ticket meia
     "email": "user1@test.com"    
 }
 ```
