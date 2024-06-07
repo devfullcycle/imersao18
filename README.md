@@ -119,7 +119,7 @@ Reservar um assento
 ```json
 {
     "spots": ["A1", "A2"],
-    "ticket_kind": full, //na API 1, o ticket_id = full é o ticket inteiro, o ticket_id = half é o ticket meia
+    "ticket_kind": "full", //na API 1, o ticket_id = full é o ticket inteiro, o ticket_id = half é o ticket meia
     "email": "user1@test.com"    
 }
 ```
@@ -131,7 +131,7 @@ Reservar um assento
             "id": 1,
             "email": "user1@test.com"    
             "spot": "A1",
-            "ticket_kind": 10,
+            "ticket_kind": "full",
             "status": "reserved",
             "event_id": 1,
         },
@@ -139,7 +139,7 @@ Reservar um assento
             "id": 2,
             "email": "user1@test.com"    
             "spot": "A2",
-            "ticket_kind": 10,
+            "ticket_kind": "full",
             "status": "reserved",
             "event_id": 1,
         }
