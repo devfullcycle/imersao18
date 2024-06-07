@@ -82,6 +82,45 @@ Listar os assentos de um evento
 ]
 ```
 
+## GET http://localhost:8000/spots/:spotId
+
+Listar os assentos de um evento
+
+```json
+[
+        {
+            "id": 1,
+            "name": "Queen Celebration In Concert e Orquestra",
+            "location": "Espaço Unimed - Rua Tagipuru, 795 - Barra Funda - São Paulo - SP",
+            "organization": "Eda Shows e Eventos Ltda",
+            "rating": "L", // L - Livre, L10 - 10 anos, L12 - 12 anos, L14 - 14 anos, L16 - 16 anos, L18 - 18 anos
+            "date": "2021-01-01T21:00:00",
+            "image_url": "http://localhost:8001/images/1.jpg", //deixar sempre o endereço das imagem em localhost:8001, vou criar um fake server para as imagens
+            "created_at": "2021-01-01T00:00:00",
+            "updated_at": "2021-01-01T00:00:00",
+            "tickets": [
+                {
+                    "id": 1,
+                    "name": "Inteira",
+                    "price": 100.00,
+                },
+                {
+                    "id": 2,
+                    "type": "Meia",
+                    "price": 50.00,
+                }
+            ],
+            "spots": [
+                {"id": 1, "name": "A1", "status": "available", "event_id": 1},
+                {"id": 1, "name": "A2", "status": "sold", "event_id": 1},
+                ...
+                {"id": 1, "name": "B1", "status": "available", "event_id": 1},
+            ]
+        }
+    ]
+]
+```
+
 ## POST http://localhost:8000/checkout
 
 Realizar a compra de um ingresso
