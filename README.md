@@ -126,14 +126,24 @@ Reservar um assento
 
 - Response
 ```json
-{
-    "id": 1,
-    "spots": ["A1", "A2"],
-    "ticket_kind": 10,
-    "status": "reserved",
-    "event_id": 1,
-    "email": "user1@test.com"    
-}
+[
+        {
+            "id": 1,
+            "email": "user1@test.com"    
+            "spot": "A1",
+            "ticket_kind": 10,
+            "status": "reserved",
+            "event_id": 1,
+        },
+        {
+            "id": 2,
+            "email": "user1@test.com"    
+            "spot": "A2",
+            "ticket_kind": 10,
+            "status": "reserved",
+            "event_id": 1,
+        }
+]
 ```
 
 ## API 2
@@ -154,14 +164,24 @@ Reservar um lugar
 
 - Response
 ```json
-{
-    "id": 1,
-    "lugares": ["A1", "A2"],
-    "tipo_ingresso": "inteira", //ou meia
-    "estado": "reservado", //disponivel, reservado
-    "evento_id": 1,
-    "email": "user2@test.com"    
-}
+[
+        {
+            "id": 1,
+            "lugares": "A1",
+            "email": "user2@test.com"    
+            "tipo_ingresso": "inteira", //ou meia
+            "estado": "reservado", //disponivel, reservado
+            "evento_id": 1,
+        },
+        {
+            "id": 2,
+            "lugares": "A2",
+            "email": "user2@test.com"    
+            "tipo_ingresso": "inteira", //ou meia
+            "estado": "reservado", //disponivel, reservado
+            "evento_id": 1,
+        }
+]
 ```
 
 Dentro da API Gateway, configurar um token de autenticação forever, quando a API Gateway chamar a API 1 e API 2, enviar o token de autenticação como:
