@@ -23,11 +23,13 @@ Listar os eventos
                     "id": 1,
                     "name": "Inteira",
                     "price": 100.00,
+                    "event_id": 1   
                 },
                 {
                     "id": 2,
                     "type": "Meia",
                     "price": 50.00,
+                    "event_id": 1   
                 }
             ]
         }
