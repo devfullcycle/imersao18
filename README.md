@@ -208,7 +208,7 @@ Reservar um lugar
 [
         {
             "id": 1,
-            "lugares": "A1",
+            "lugar": "A1",
             "email": "user2@test.com"    
             "tipo_ingresso": "inteira", //ou meia
             "estado": "reservado", //disponivel, reservado
@@ -216,7 +216,7 @@ Reservar um lugar
         },
         {
             "id": 2,
-            "lugares": "A2",
+            "lugar": "A2",
             "email": "user2@test.com"    
             "tipo_ingresso": "inteira", //ou meia
             "estado": "reservado", //disponivel, reservado
