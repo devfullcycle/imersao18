@@ -21,7 +21,7 @@ Listar os eventos
             "tickets": [
                 {
                     "id": 1,
-                    "name": "Inteira",
+                    "type": "Inteira",
                     "price": 100.00,
                     "event_id": 1   
                 },
