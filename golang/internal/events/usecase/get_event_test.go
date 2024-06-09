@@ -58,12 +58,6 @@ func TestGetEventUseCase(t *testing.T) {
 	assert.Equal(t, mockEvent.Price, output.Price)
 	assert.Equal(t, mockEvent.PartnerID, output.PartnerID)
 
-	assert.Equal(t, len(mockEvent.Spots), len(output.Spots))
-	assert.Equal(t, mockEvent.Spots[0].ID, output.Spots[0].ID)
-	assert.Equal(t, mockEvent.Spots[0].Name, output.Spots[0].Name)
-	assert.Equal(t, string(mockEvent.Spots[0].Status), output.Spots[0].Status)
-	assert.Equal(t, mockEvent.Spots[0].TicketID, output.Spots[0].TicketID)
-
 	assert.Equal(t, len(mockEvent.Tickets), len(output.Tickets))
 	assert.Equal(t, mockEvent.Tickets[0].ID, output.Tickets[0].ID)
 	assert.Equal(t, mockEvent.Tickets[0].Spot.ID, output.Tickets[0].SpotID)

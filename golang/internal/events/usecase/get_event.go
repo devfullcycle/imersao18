@@ -18,22 +18,7 @@ type GetEventOutputDTO struct {
 	Capacity     int         `json:"capacity"`
 	Price        float64     `json:"price"`
 	PartnerID    int         `json:"partner_id"`
-	Spots        []SpotDTO   `json:"spots"`
 	Tickets      []TicketDTO `json:"tickets"`
-}
-
-type SpotDTO struct {
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Status   string `json:"status"`
-	TicketID string `json:"ticket_id"`
-}
-
-type TicketDTO struct {
-	ID         string  `json:"id"`
-	SpotID     string  `json:"spot_id"`
-	TicketType string  `json:"ticket_type"`
-	Price      float64 `json:"price"`
 }
 
 type GetEventUseCase struct {
@@ -48,16 +33,6 @@ func (uc *GetEventUseCase) Execute(input GetEventInputDTO) (*GetEventOutputDTO, 
 	event, err := uc.repo.FindEventByID(input.ID)
 	if err != nil {
 		return nil, err
-	}
-
-	spots := make([]SpotDTO, len(event.Spots))
-	for i, spot := range event.Spots {
-		spots[i] = SpotDTO{
-			ID:       spot.ID,
-			Name:     spot.Name,
-			Status:   string(spot.Status),
-			TicketID: spot.TicketID,
-		}
 	}
 
 	tickets := make([]TicketDTO, len(event.Tickets))
@@ -80,7 +55,6 @@ func (uc *GetEventUseCase) Execute(input GetEventInputDTO) (*GetEventOutputDTO, 
 		Capacity:     event.Capacity,
 		Price:        event.Price,
 		PartnerID:    event.PartnerID,
-		Spots:        spots,
 		Tickets:      tickets,
 	}, nil
 }

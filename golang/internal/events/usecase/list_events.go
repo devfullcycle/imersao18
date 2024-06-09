@@ -20,6 +20,21 @@ type EventDTO struct {
 	PartnerID    int         `json:"partner_id"`
 	Spots        []SpotDTO   `json:"spots"`
 	Tickets      []TicketDTO `json:"tickets"`
+	ImageURL     string      `json:"image_url"`
+}
+
+type SpotDTO struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Status   string `json:"status"`
+	TicketID string `json:"ticket_id"`
+}
+
+type TicketDTO struct {
+	ID         string  `json:"id"`
+	SpotID     string  `json:"spot_id"`
+	TicketType string  `json:"ticket_type"`
+	Price      float64 `json:"price"`
 }
 
 type ListEventsUseCase struct {

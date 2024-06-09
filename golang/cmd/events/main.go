@@ -12,12 +12,19 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
+	_ "github.com/devfullcycle/imersao18/golang/docs" // Import the generated docs
 	httpHandler "github.com/devfullcycle/imersao18/golang/internal/events/infra/http"
 	"github.com/devfullcycle/imersao18/golang/internal/events/infra/repository"
 	"github.com/devfullcycle/imersao18/golang/internal/events/infra/service"
 	"github.com/devfullcycle/imersao18/golang/internal/events/usecase"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// @title Events API
+// @version 1.0
+// @description This is a server for managing events. Imersão Full Cycle
+// @host localhost:8080
+// @BasePath /
 func main() {
 	// Configuração do banco de dados
 	db, err := sql.Open("mysql", "test_user:test_password@tcp(localhost:3306)/test_db")
@@ -44,13 +51,22 @@ func main() {
 	createEventUseCase := usecase.NewCreateEventUseCase(eventRepo)
 	partnerFactory := service.NewPartnerFactory(partnerBaseURLs)
 	buyTicketsUseCase := usecase.NewBuyTicketsUseCase(eventRepo, partnerFactory)
+	listSpotsUseCase := usecase.NewListSpotsUseCase(eventRepo)
 
 	// Handlers HTTP
-	eventsHandler := httpHandler.NewEventsHandler(listEventsUseCase, getEventUseCase, createEventUseCase, buyTicketsUseCase)
+	eventsHandler := httpHandler.NewEventsHandler(
+		listEventsUseCase,
+		getEventUseCase,
+		createEventUseCase,
+		buyTicketsUseCase,
+		listSpotsUseCase,
+	)
 
 	r := http.NewServeMux()
+	r.HandleFunc("/swagger/*", httpSwagger.WrapHandler)
 	r.HandleFunc("/events", eventsHandler.ListEvents)
 	r.HandleFunc("/events/{eventID}", eventsHandler.GetEvent)
+	r.HandleFunc("/events/{eventID}/spots", eventsHandler.ListSpots)
 	r.HandleFunc("POST /events", eventsHandler.CreateEvent)
 	r.HandleFunc("POST /checkout", eventsHandler.BuyTickets)
 

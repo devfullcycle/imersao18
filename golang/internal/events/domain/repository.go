@@ -8,4 +8,5 @@ type EventRepository interface {
 	FindSpotByID(spotID string) (*Spot, error)
 	CreateTicket(ticket *Ticket) error
 	ReserveSpot(spotID, ticketID string) error
+	FindSpotsByEventID(eventID string) ([]*Spot, error)
 }
