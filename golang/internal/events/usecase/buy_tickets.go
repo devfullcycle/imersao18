@@ -1,8 +1,6 @@
 package usecase
 
 import (
-	"strconv"
-
 	"github.com/devfullcycle/imersao18/golang/internal/events/domain"
 	"github.com/devfullcycle/imersao18/golang/internal/events/infra/service"
 )
@@ -67,16 +65,9 @@ func (uc *BuyTicketsUseCase) Execute(input BuyTicketsInputDTO) (*BuyTicketsOutpu
 			return nil, err
 		}
 
-		ticket := &domain.Ticket{
-			ID:         strconv.Itoa(reservation.ID),
-			EventID:    input.EventID,
-			Spot:       spot,
-			TicketType: domain.TicketType(input.TicketType),
-			Price:      event.Price,
-		}
-
-		if input.TicketType == string(domain.TicketTypeHalf) {
-			ticket.Price /= 2
+		ticket, err := domain.NewTicket(event, spot, domain.TicketType(reservation.TicketType))
+		if err != nil {
+			return nil, err
 		}
 
 		err = uc.repo.CreateTicket(ticket)

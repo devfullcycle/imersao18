@@ -229,7 +229,7 @@ func (r *mysqlEventRepository) CreateEvent(event *domain.Event) error {
 // FindSpotByID returns a spot by its ID, including the associated ticket (if any).
 func (r *mysqlEventRepository) FindSpotByID(spotID string) (*domain.Spot, error) {
 	query := `
-		SELECT 
+		SELECT
 			s.id, s.event_id, s.name, s.status, s.ticket_id,
 			t.id, t.event_id, t.spot_id, t.ticket_type, t.price
 		FROM spots s

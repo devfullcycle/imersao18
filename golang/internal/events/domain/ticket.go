@@ -18,12 +18,11 @@ const (
 
 // Ticket represents a ticket for an event.
 type Ticket struct {
-	ID            string
-	EventID       string
-	Spot          *Spot
-	TicketType    TicketType
-	Price         float64
-	ReservationID int
+	ID         string
+	EventID    string
+	Spot       *Spot
+	TicketType TicketType
+	Price      float64
 }
 
 // IsValidTicketType checks if a ticket type is valid.
@@ -37,22 +36,25 @@ func NewTicket(event *Event, spot *Spot, ticketType TicketType) (*Ticket, error)
 		return nil, ErrInvalidTicketType
 	}
 
-	price := event.Price
-	if ticketType == TicketTypeHalf {
-		price = price / 2
-	}
-
 	ticket := &Ticket{
 		ID:         uuid.New().String(),
 		EventID:    event.ID,
 		Spot:       spot,
 		TicketType: ticketType,
-		Price:      price,
+		Price:      event.Price,
 	}
+	ticket.CalculatePrice()
 	if err := ticket.Validate(); err != nil {
 		return nil, err
 	}
 	return ticket, nil
+}
+
+// CalculatePrice calculates the price based on the ticket type.
+func (t *Ticket) CalculatePrice() {
+	if t.TicketType == TicketTypeHalf {
+		t.Price /= 2
+	}
 }
 
 // Validate checks if the ticket data is valid.

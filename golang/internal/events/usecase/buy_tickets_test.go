@@ -68,14 +68,14 @@ func TestBuyTicketsUseCase(t *testing.T) {
 
 	// Mock the partner service to expect the call to MakeReservation
 	mockPartnerService.On("MakeReservation", mock.AnythingOfType("*service.ReservationRequest")).Return([]service.ReservationResponse{
-		{ID: 1, Spot: "1"},
-		{ID: 2, Spot: "2"},
+		{ID: 1, Spot: "1", TicketType: "full", Status: "reserved"},
+		{ID: 2, Spot: "2", TicketType: "full", Status: "reserved"},
 	}, nil)
 
 	// Define the input DTO
 	input := BuyTicketsInputDTO{
 		EventID:    eventID,
-		Spots:      []string{"A1", "A2"},
+		Spots:      []string{"1", "2"},
 		TicketType: "full",
 		CardHash:   "hash_do_cartao",
 		Email:      "test@test.com",
@@ -89,12 +89,11 @@ func TestBuyTicketsUseCase(t *testing.T) {
 	assert.NotNil(t, output)
 	assert.Equal(t, 2, len(output.Tickets))
 
-	assert.Equal(t, "1", output.Tickets[0].ID)
+	// Verificar que os tickets foram criados corretamente
 	assert.Equal(t, "1", output.Tickets[0].SpotID)
 	assert.Equal(t, "full", output.Tickets[0].TicketType)
 	assert.Equal(t, 50.0, output.Tickets[0].Price)
 
-	assert.Equal(t, "2", output.Tickets[1].ID)
 	assert.Equal(t, "2", output.Tickets[1].SpotID)
 	assert.Equal(t, "full", output.Tickets[1].TicketType)
 	assert.Equal(t, 50.0, output.Tickets[1].Price)
