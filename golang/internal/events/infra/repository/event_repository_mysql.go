@@ -325,3 +325,42 @@ func (r *mysqlEventRepository) FindSpotsByEventID(eventID string) ([]*domain.Spo
 
 	return spots, nil
 }
+
+func (r *mysqlEventRepository) FindSpotByName(eventID, name string) (*domain.Spot, error) {
+	query := `
+		SELECT 
+			s.id, s.event_id, s.name, s.status, s.ticket_id,
+			t.id, t.event_id, t.spot_id, t.ticket_type, t.price
+		FROM spots s
+		LEFT JOIN tickets t ON s.id = t.spot_id
+		WHERE s.event_id = ? AND s.name = ?
+	`
+	row := r.db.QueryRow(query, eventID, name)
+
+	var spot domain.Spot
+	var ticket domain.Ticket
+	var ticketID, ticketEventID, ticketSpotID, ticketType sql.NullString
+	var ticketPrice sql.NullFloat64
+
+	err := row.Scan(
+		&spot.ID, &spot.EventID, &spot.Name, &spot.Status, &spot.TicketID,
+		&ticketID, &ticketEventID, &ticketSpotID, &ticketType, &ticketPrice,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, domain.ErrSpotNotFound
+		}
+		return nil, err
+	}
+
+	if ticketID.Valid {
+		ticket.ID = ticketID.String
+		ticket.EventID = ticketEventID.String
+		ticket.Spot = &spot
+		ticket.TicketType = domain.TicketType(ticketType.String)
+		ticket.Price = ticketPrice.Float64
+		spot.TicketID = ticket.ID
+	}
+
+	return &spot, nil
+}

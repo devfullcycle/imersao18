@@ -6,7 +6,10 @@ import (
 	"github.com/google/uuid"
 )
 
-var ErrInvalidTicketType = errors.New("invalid ticket type")
+// Errors
+var (
+	ErrInvalidTicketType = errors.New("invalid ticket type")
+)
 
 // TicketType represents the type of a ticket.
 type TicketType string
@@ -16,6 +19,11 @@ const (
 	TicketTypeFull TicketType = "full" // Full-price ticket
 )
 
+// IsValidTicketType checks if a ticket type is valid.
+func IsValidTicketType(ticketType TicketType) bool {
+	return ticketType == TicketTypeHalf || ticketType == TicketTypeFull
+}
+
 // Ticket represents a ticket for an event.
 type Ticket struct {
 	ID         string
@@ -23,11 +31,6 @@ type Ticket struct {
 	Spot       *Spot
 	TicketType TicketType
 	Price      float64
-}
-
-// IsValidTicketType checks if a ticket type is valid.
-func IsValidTicketType(ticketType TicketType) bool {
-	return ticketType == TicketTypeHalf || ticketType == TicketTypeFull
 }
 
 // NewTicket creates a new ticket with the given parameters.

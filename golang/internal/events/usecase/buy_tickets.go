@@ -30,13 +30,13 @@ func NewBuyTicketsUseCase(repo domain.EventRepository, partnerFactory service.Pa
 }
 
 func (uc *BuyTicketsUseCase) Execute(input BuyTicketsInputDTO) (*BuyTicketsOutputDTO, error) {
-	// Verify the event
+	// Verifica o evento
 	event, err := uc.repo.FindEventByID(input.EventID)
 	if err != nil {
 		return nil, err
 	}
 
-	// Create reservation request
+	// Cria a solicitação de reserva
 	req := &service.ReservationRequest{
 		EventID:    input.EventID,
 		Spots:      input.Spots,
@@ -45,27 +45,27 @@ func (uc *BuyTicketsUseCase) Execute(input BuyTicketsInputDTO) (*BuyTicketsOutpu
 		Email:      input.Email,
 	}
 
-	// Get the partner service
+	// Obtém o serviço do parceiro
 	partnerService, err := uc.partnerFactory.CreatePartner(event.PartnerID)
 	if err != nil {
 		return nil, err
 	}
 
-	// Reserve spots using the partner service
+	// Reserva os lugares usando o serviço do parceiro
 	reservationResponse, err := partnerService.MakeReservation(req)
 	if err != nil {
 		return nil, err
 	}
 
-	// Save tickets in the database
+	// Salva os ingressos no banco de dados
 	tickets := make([]domain.Ticket, len(reservationResponse))
 	for i, reservation := range reservationResponse {
-		spot, err := uc.repo.FindSpotByID(reservation.Spot)
+		spot, err := uc.repo.FindSpotByName(event.ID, reservation.Spot)
 		if err != nil {
 			return nil, err
 		}
 
-		ticket, err := domain.NewTicket(event, spot, domain.TicketType(reservation.TicketType))
+		ticket, err := domain.NewTicket(event, spot, domain.TicketType(input.TicketType))
 		if err != nil {
 			return nil, err
 		}

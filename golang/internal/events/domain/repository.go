@@ -1,12 +1,12 @@
 package domain
 
-// EventRepository defines the interface for interacting with event and spot data.
 type EventRepository interface {
 	ListEvents() ([]Event, error)
 	FindEventByID(eventID string) (*Event, error)
+	FindSpotsByEventID(eventID string) ([]*Spot, error)
+	FindSpotByName(eventID, spotName string) (*Spot, error) // Atualizado
 	CreateEvent(event *Event) error
-	FindSpotByID(spotID string) (*Spot, error)
+	CreateSpot(spot *Spot) error
 	CreateTicket(ticket *Ticket) error
 	ReserveSpot(spotID, ticketID string) error
-	FindSpotsByEventID(eventID string) ([]*Spot, error)
 }

@@ -34,7 +34,6 @@ func TestBuyTicketsUseCase(t *testing.T) {
 	mockPartnerService := new(MockPartnerService)
 	mockPartnerFactory := new(MockPartnerFactory)
 
-	// Configurações da factory mock
 	mockPartnerFactory.On("CreatePartner", 1).Return(mockPartnerService, nil)
 
 	buyTicketsUseCase := NewBuyTicketsUseCase(mockRepo, mockPartnerFactory)
@@ -59,37 +58,32 @@ func TestBuyTicketsUseCase(t *testing.T) {
 		Tickets: []domain.Ticket{},
 	}
 
-	// Mock the repository to expect the call to FindEventByID
 	mockRepo.On("FindEventByID", eventID).Return(mockEvent, nil)
-	mockRepo.On("FindSpotByID", "1").Return(&mockEvent.Spots[0], nil)
-	mockRepo.On("FindSpotByID", "2").Return(&mockEvent.Spots[1], nil)
+	mockRepo.On("FindSpotByName", eventID, "A1").Return(&mockEvent.Spots[0], nil)
+	mockRepo.On("FindSpotByName", eventID, "A2").Return(&mockEvent.Spots[1], nil)
 	mockRepo.On("CreateTicket", mock.AnythingOfType("*domain.Ticket")).Return(nil)
 	mockRepo.On("ReserveSpot", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(nil)
 
-	// Mock the partner service to expect the call to MakeReservation
 	mockPartnerService.On("MakeReservation", mock.AnythingOfType("*service.ReservationRequest")).Return([]service.ReservationResponse{
-		{ID: 1, Spot: "1", TicketType: "full", Status: "reserved"},
-		{ID: 2, Spot: "2", TicketType: "full", Status: "reserved"},
+		{ID: "1", Spot: "A1"},
+		{ID: "2", Spot: "A2"},
 	}, nil)
 
-	// Define the input DTO
 	input := BuyTicketsInputDTO{
 		EventID:    eventID,
-		Spots:      []string{"1", "2"},
+		Spots:      []string{"A1", "A2"},
 		TicketType: "full",
 		CardHash:   "hash_do_cartao",
 		Email:      "test@test.com",
 	}
 
-	// Execute the use case
 	output, err := buyTicketsUseCase.Execute(input)
 
-	// Assertions
 	assert.Nil(t, err)
 	assert.NotNil(t, output)
 	assert.Equal(t, 2, len(output.Tickets))
 
-	// Verificar que os tickets foram criados corretamente
+	// Verifica as propriedades dos tickets
 	assert.Equal(t, "1", output.Tickets[0].SpotID)
 	assert.Equal(t, "full", output.Tickets[0].TicketType)
 	assert.Equal(t, 50.0, output.Tickets[0].Price)
@@ -98,7 +92,6 @@ func TestBuyTicketsUseCase(t *testing.T) {
 	assert.Equal(t, "full", output.Tickets[1].TicketType)
 	assert.Equal(t, 50.0, output.Tickets[1].Price)
 
-	// Assert that the mock repository and partner service were called
 	mockRepo.AssertExpectations(t)
 	mockPartnerFactory.AssertExpectations(t)
 	mockPartnerService.AssertExpectations(t)
