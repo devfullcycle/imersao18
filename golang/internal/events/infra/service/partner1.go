@@ -18,12 +18,12 @@ type Partner1ReservationRequest struct {
 }
 
 type Partner1ReservationResponse struct {
-	ID         int    `json:"id"`
+	ID         string `json:"id"`
 	Email      string `json:"email"`
 	Spot       string `json:"spot"`
 	TicketKind string `json:"ticket_kind"`
 	Status     string `json:"status"`
-	EventID    int    `json:"event_id"`
+	EventID    string `json:"event_id"`
 }
 
 func (p *Partner1) MakeReservation(req *ReservationRequest) ([]ReservationResponse, error) {
@@ -52,7 +52,7 @@ func (p *Partner1) MakeReservation(req *ReservationRequest) ([]ReservationRespon
 	}
 	defer httpResp.Body.Close()
 
-	if httpResp.StatusCode != http.StatusOK {
+	if httpResp.StatusCode != http.StatusCreated {
 		return nil, fmt.Errorf("reservation failed with status code: %d", httpResp.StatusCode)
 	}
 

@@ -9,12 +9,12 @@ type ReservationRequest struct {
 }
 
 type ReservationResponse struct {
-	ID         int    `json:"id"`
+	ID         string `json:"id"`
 	Email      string `json:"email"`
 	Spot       string `json:"spot"`
 	TicketType string `json:"ticket_kind"`
 	Status     string `json:"status"`
-	EventID    int    `json:"event_id"`
+	EventID    string `json:"event_id"`
 }
 
 type Partner interface {
