@@ -17,6 +17,13 @@ type BuyTicketsOutputDTO struct {
 	Tickets []TicketDTO `json:"tickets"`
 }
 
+type TicketDTO struct {
+	ID         string  `json:"id"`
+	SpotID     string  `json:"spot_id"`
+	TicketType string  `json:"ticket_type"`
+	Price      float64 `json:"price"`
+}
+
 type BuyTicketsUseCase struct {
 	repo           domain.EventRepository
 	partnerFactory service.PartnerFactory

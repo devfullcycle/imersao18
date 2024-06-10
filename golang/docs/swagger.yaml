@@ -1,5 +1,15 @@
 basePath: /
 definitions:
+  http.CreateSpotsRequest:
+    properties:
+      number_of_spots:
+        type: integer
+    type: object
+  http.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
   usecase.BuyTicketsInputDTO:
     properties:
       card_hash:
@@ -66,6 +76,13 @@ definitions:
       rating:
         type: string
     type: object
+  usecase.CreateSpotsOutputDTO:
+    properties:
+      spots:
+        items:
+          $ref: '#/definitions/usecase.SpotDTO'
+        type: array
+    type: object
   usecase.EventDTO:
     properties:
       capacity:
@@ -88,14 +105,6 @@ definitions:
         type: number
       rating:
         type: string
-      spots:
-        items:
-          $ref: '#/definitions/usecase.SpotDTO'
-        type: array
-      tickets:
-        items:
-          $ref: '#/definitions/usecase.TicketDTO'
-        type: array
     type: object
   usecase.GetEventOutputDTO:
     properties:
@@ -117,10 +126,6 @@ definitions:
         type: number
       rating:
         type: string
-      tickets:
-        items:
-          $ref: '#/definitions/usecase.TicketDTO'
-        type: array
     type: object
   usecase.ListEventsOutputDTO:
     properties:
@@ -140,10 +145,14 @@ definitions:
     type: object
   usecase.SpotDTO:
     properties:
+      event_id:
+        type: string
       id:
         type: string
       name:
         type: string
+      reserved:
+        type: boolean
       status:
         type: string
       ticket_id:
@@ -171,11 +180,11 @@ paths:
     post:
       consumes:
       - application/json
-      description: Buy tickets
+      description: Buy tickets for a specific event
       parameters:
-      - description: Buy tickets data
+      - description: Input data
         in: body
-        name: request
+        name: input
         required: true
         schema:
           $ref: '#/definitions/usecase.BuyTicketsInputDTO'
@@ -186,12 +195,22 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/usecase.BuyTicketsOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
       summary: Buy tickets for an event
       tags:
-      - tickets
+      - Events
   /events:
     get:
-      description: Get all events
+      consumes:
+      - application/json
+      description: Get all events with their details
       produces:
       - application/json
       responses:
@@ -199,17 +218,21 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/usecase.ListEventsOutputDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
       summary: List all events
       tags:
-      - events
+      - Events
     post:
       consumes:
       - application/json
-      description: Create a new event
+      description: Create a new event with the given details
       parameters:
-      - description: Event data
+      - description: Input data
         in: body
-        name: event
+        name: input
         required: true
         schema:
           $ref: '#/definitions/usecase.CreateEventInputDTO'
@@ -220,12 +243,22 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/usecase.CreateEventOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
       summary: Create a new event
       tags:
-      - events
+      - Events
   /events/{eventID}:
     get:
-      description: Get a single event by ID
+      consumes:
+      - application/json
+      description: Get details of an event by ID
       parameters:
       - description: Event ID
         in: path
@@ -239,12 +272,26 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/usecase.GetEventOutputDTO'
-      summary: Get event by ID
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get event details
       tags:
-      - events
+      - Events
   /events/{eventID}/spots:
     get:
-      description: Get all spots for an event
+      consumes:
+      - application/json
+      description: List all spots for a specific event
       parameters:
       - description: Event ID
         in: path
@@ -258,7 +305,49 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/usecase.ListSpotsOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
       summary: List spots for an event
       tags:
-      - spots
+      - Events
+    post:
+      consumes:
+      - application/json
+      description: Create a specified number of spots for an event
+      parameters:
+      - description: Event ID
+        in: path
+        name: eventID
+        required: true
+        type: string
+      - description: Input data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateSpotsRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/usecase.CreateSpotsOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Create spots for an event
+      tags:
+      - Events
 swagger: "2.0"

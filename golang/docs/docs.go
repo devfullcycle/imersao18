@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/checkout": {
             "post": {
-                "description": "Buy tickets",
+                "description": "Buy tickets for a specific event",
                 "consumes": [
                     "application/json"
                 ],
@@ -25,13 +25,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tickets"
+                    "Events"
                 ],
                 "summary": "Buy tickets for an event",
                 "parameters": [
                     {
-                        "description": "Buy tickets data",
-                        "name": "request",
+                        "description": "Input data",
+                        "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -45,18 +45,33 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/usecase.BuyTicketsOutputDTO"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
         },
         "/events": {
             "get": {
-                "description": "Get all events",
+                "description": "Get all events with their details",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "events"
+                    "Events"
                 ],
                 "summary": "List all events",
                 "responses": {
@@ -65,11 +80,17 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/usecase.ListEventsOutputDTO"
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             },
             "post": {
-                "description": "Create a new event",
+                "description": "Create a new event with the given details",
                 "consumes": [
                     "application/json"
                 ],
@@ -77,13 +98,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "events"
+                    "Events"
                 ],
                 "summary": "Create a new event",
                 "parameters": [
                     {
-                        "description": "Event data",
-                        "name": "event",
+                        "description": "Input data",
+                        "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -97,20 +118,35 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/usecase.CreateEventOutputDTO"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
         },
         "/events/{eventID}": {
             "get": {
-                "description": "Get a single event by ID",
+                "description": "Get details of an event by ID",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "events"
+                    "Events"
                 ],
-                "summary": "Get event by ID",
+                "summary": "Get event details",
                 "parameters": [
                     {
                         "type": "string",
@@ -126,18 +162,39 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/usecase.GetEventOutputDTO"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
         },
         "/events/{eventID}/spots": {
             "get": {
-                "description": "Get all spots for an event",
+                "description": "List all spots for a specific event",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "spots"
+                    "Events"
                 ],
                 "summary": "List spots for an event",
                 "parameters": [
@@ -155,12 +212,91 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/usecase.ListSpotsOutputDTO"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a specified number of spots for an event",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Create spots for an event",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Event ID",
+                        "name": "eventID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Input data",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/http.CreateSpotsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/usecase.CreateSpotsOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/http.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/http.ErrorResponse"
+                        }
                     }
                 }
             }
         }
     },
     "definitions": {
+        "http.CreateSpotsRequest": {
+            "type": "object",
+            "properties": {
+                "number_of_spots": {
+                    "type": "integer"
+                }
+            }
+        },
+        "http.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "usecase.BuyTicketsInputDTO": {
             "type": "object",
             "properties": {
@@ -262,6 +398,17 @@ const docTemplate = `{
                 }
             }
         },
+        "usecase.CreateSpotsOutputDTO": {
+            "type": "object",
+            "properties": {
+                "spots": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/usecase.SpotDTO"
+                    }
+                }
+            }
+        },
         "usecase.EventDTO": {
             "type": "object",
             "properties": {
@@ -294,18 +441,6 @@ const docTemplate = `{
                 },
                 "rating": {
                     "type": "string"
-                },
-                "spots": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/usecase.SpotDTO"
-                    }
-                },
-                "tickets": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/usecase.TicketDTO"
-                    }
                 }
             }
         },
@@ -338,12 +473,6 @@ const docTemplate = `{
                 },
                 "rating": {
                     "type": "string"
-                },
-                "tickets": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/usecase.TicketDTO"
-                    }
                 }
             }
         },
@@ -375,11 +504,17 @@ const docTemplate = `{
         "usecase.SpotDTO": {
             "type": "object",
             "properties": {
+                "event_id": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
+                },
+                "reserved": {
+                    "type": "boolean"
                 },
                 "status": {
                     "type": "string"

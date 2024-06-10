@@ -24,8 +24,13 @@ func (m *MockEventRepository) FindSpotsByEventID(eventID string) ([]*domain.Spot
 	return args.Get(0).([]*domain.Spot), args.Error(1)
 }
 
-func (m *MockEventRepository) FindSpotByName(eventID, spotName string) (*domain.Spot, error) {
-	args := m.Called(eventID, spotName)
+func (m *MockEventRepository) FindSpotByID(spotID string) (*domain.Spot, error) {
+	args := m.Called(spotID)
+	return args.Get(0).(*domain.Spot), args.Error(1)
+}
+
+func (m *MockEventRepository) FindSpotByName(eventID, name string) (*domain.Spot, error) {
+	args := m.Called(eventID, name)
 	return args.Get(0).(*domain.Spot), args.Error(1)
 }
 

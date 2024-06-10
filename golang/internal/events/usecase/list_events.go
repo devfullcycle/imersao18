@@ -9,32 +9,16 @@ type ListEventsOutputDTO struct {
 }
 
 type EventDTO struct {
-	ID           string      `json:"id"`
-	Name         string      `json:"name"`
-	Location     string      `json:"location"`
-	Organization string      `json:"organization"`
-	Rating       string      `json:"rating"`
-	Date         string      `json:"date"`
-	Capacity     int         `json:"capacity"`
-	Price        float64     `json:"price"`
-	PartnerID    int         `json:"partner_id"`
-	Spots        []SpotDTO   `json:"spots"`
-	Tickets      []TicketDTO `json:"tickets"`
-	ImageURL     string      `json:"image_url"`
-}
-
-type SpotDTO struct {
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Status   string `json:"status"`
-	TicketID string `json:"ticket_id"`
-}
-
-type TicketDTO struct {
-	ID         string  `json:"id"`
-	SpotID     string  `json:"spot_id"`
-	TicketType string  `json:"ticket_type"`
-	Price      float64 `json:"price"`
+	ID           string  `json:"id"`
+	Name         string  `json:"name"`
+	Location     string  `json:"location"`
+	Organization string  `json:"organization"`
+	Rating       string  `json:"rating"`
+	Date         string  `json:"date"`
+	Capacity     int     `json:"capacity"`
+	Price        float64 `json:"price"`
+	PartnerID    int     `json:"partner_id"`
+	ImageURL     string  `json:"image_url"`
 }
 
 type ListEventsUseCase struct {
@@ -53,26 +37,6 @@ func (uc *ListEventsUseCase) Execute() (*ListEventsOutputDTO, error) {
 
 	eventDTOs := make([]EventDTO, len(events))
 	for i, event := range events {
-		spots := make([]SpotDTO, len(event.Spots))
-		for j, spot := range event.Spots {
-			spots[j] = SpotDTO{
-				ID:       spot.ID,
-				Name:     spot.Name,
-				Status:   string(spot.Status),
-				TicketID: spot.TicketID,
-			}
-		}
-
-		tickets := make([]TicketDTO, len(event.Tickets))
-		for k, ticket := range event.Tickets {
-			tickets[k] = TicketDTO{
-				ID:         ticket.ID,
-				SpotID:     ticket.Spot.ID,
-				TicketType: string(ticket.TicketType),
-				Price:      ticket.Price,
-			}
-		}
-
 		eventDTOs[i] = EventDTO{
 			ID:           event.ID,
 			Name:         event.Name,
@@ -83,8 +47,6 @@ func (uc *ListEventsUseCase) Execute() (*ListEventsOutputDTO, error) {
 			Capacity:     event.Capacity,
 			Price:        event.Price,
 			PartnerID:    event.PartnerID,
-			Spots:        spots,
-			Tickets:      tickets,
 		}
 	}
 

@@ -28,12 +28,6 @@ func TestListEventsUseCase(t *testing.T) {
 			Capacity:     100,
 			Price:        50.0,
 			PartnerID:    1,
-			Spots: []domain.Spot{
-				{ID: "1", EventID: eventID, Name: "A1", Status: domain.SpotStatusAvailable},
-			},
-			Tickets: []domain.Ticket{
-				{ID: "1", EventID: eventID, Spot: &domain.Spot{ID: "1"}, TicketType: domain.TicketTypeFull, Price: 50.0},
-			},
 		},
 	}
 
@@ -58,18 +52,6 @@ func TestListEventsUseCase(t *testing.T) {
 	assert.Equal(t, mockEvents[0].Capacity, output.Events[0].Capacity)
 	assert.Equal(t, mockEvents[0].Price, output.Events[0].Price)
 	assert.Equal(t, mockEvents[0].PartnerID, output.Events[0].PartnerID)
-
-	assert.Equal(t, len(mockEvents[0].Spots), len(output.Events[0].Spots))
-	assert.Equal(t, mockEvents[0].Spots[0].ID, output.Events[0].Spots[0].ID)
-	assert.Equal(t, mockEvents[0].Spots[0].Name, output.Events[0].Spots[0].Name)
-	assert.Equal(t, string(mockEvents[0].Spots[0].Status), output.Events[0].Spots[0].Status)
-	assert.Equal(t, mockEvents[0].Spots[0].TicketID, output.Events[0].Spots[0].TicketID)
-
-	assert.Equal(t, len(mockEvents[0].Tickets), len(output.Events[0].Tickets))
-	assert.Equal(t, mockEvents[0].Tickets[0].ID, output.Events[0].Tickets[0].ID)
-	assert.Equal(t, mockEvents[0].Tickets[0].Spot.ID, output.Events[0].Tickets[0].SpotID)
-	assert.Equal(t, string(mockEvents[0].Tickets[0].TicketType), output.Events[0].Tickets[0].TicketType)
-	assert.Equal(t, mockEvents[0].Tickets[0].Price, output.Events[0].Tickets[0].Price)
 
 	// Assert that the mock repository was called
 	mockRepo.AssertExpectations(t)

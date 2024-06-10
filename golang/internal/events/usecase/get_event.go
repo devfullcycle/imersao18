@@ -9,16 +9,15 @@ type GetEventInputDTO struct {
 }
 
 type GetEventOutputDTO struct {
-	ID           string      `json:"id"`
-	Name         string      `json:"name"`
-	Location     string      `json:"location"`
-	Organization string      `json:"organization"`
-	Rating       string      `json:"rating"`
-	Date         string      `json:"date"`
-	Capacity     int         `json:"capacity"`
-	Price        float64     `json:"price"`
-	PartnerID    int         `json:"partner_id"`
-	Tickets      []TicketDTO `json:"tickets"`
+	ID           string  `json:"id"`
+	Name         string  `json:"name"`
+	Location     string  `json:"location"`
+	Organization string  `json:"organization"`
+	Rating       string  `json:"rating"`
+	Date         string  `json:"date"`
+	Capacity     int     `json:"capacity"`
+	Price        float64 `json:"price"`
+	PartnerID    int     `json:"partner_id"`
 }
 
 type GetEventUseCase struct {
@@ -35,16 +34,6 @@ func (uc *GetEventUseCase) Execute(input GetEventInputDTO) (*GetEventOutputDTO, 
 		return nil, err
 	}
 
-	tickets := make([]TicketDTO, len(event.Tickets))
-	for i, ticket := range event.Tickets {
-		tickets[i] = TicketDTO{
-			ID:         ticket.ID,
-			SpotID:     ticket.Spot.ID,
-			TicketType: string(ticket.TicketType),
-			Price:      ticket.Price,
-		}
-	}
-
 	return &GetEventOutputDTO{
 		ID:           event.ID,
 		Name:         event.Name,
@@ -55,6 +44,5 @@ func (uc *GetEventUseCase) Execute(input GetEventInputDTO) (*GetEventOutputDTO, 
 		Capacity:     event.Capacity,
 		Price:        event.Price,
 		PartnerID:    event.PartnerID,
-		Tickets:      tickets,
 	}, nil
 }

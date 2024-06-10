@@ -7,11 +7,12 @@ import (
 	"github.com/devfullcycle/imersao18/golang/internal/events/domain"
 	"github.com/devfullcycle/imersao18/golang/internal/events/infra/repository"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
-func TestGetEventUseCase(t *testing.T) {
+func TestCreateSpotsUseCase_Execute(t *testing.T) {
 	mockRepo := new(repository.MockEventRepository)
-	getEventUseCase := NewGetEventUseCase(mockRepo)
+	createSpotsUseCase := NewCreateSpotsUseCase(mockRepo)
 
 	eventID := "1"
 	eventDate := time.Now().Add(24 * time.Hour)
@@ -30,27 +31,24 @@ func TestGetEventUseCase(t *testing.T) {
 
 	// Mock the repository to expect the call to FindEventByID
 	mockRepo.On("FindEventByID", eventID).Return(mockEvent, nil)
+	mockRepo.On("CreateSpot", mock.AnythingOfType("*domain.Spot")).Return(nil)
 
 	// Define the input DTO
-	input := GetEventInputDTO{
-		ID: eventID,
+	input := CreateSpotsInputDTO{
+		EventID:       eventID,
+		NumberOfSpots: 2,
 	}
 
 	// Execute the use case
-	output, err := getEventUseCase.Execute(input)
+	output, err := createSpotsUseCase.Execute(input)
 
 	// Assertions
 	assert.Nil(t, err)
 	assert.NotNil(t, output)
-	assert.Equal(t, mockEvent.ID, output.ID)
-	assert.Equal(t, mockEvent.Name, output.Name)
-	assert.Equal(t, mockEvent.Location, output.Location)
-	assert.Equal(t, mockEvent.Organization, output.Organization)
-	assert.Equal(t, string(mockEvent.Rating), output.Rating)
-	assert.Equal(t, mockEvent.Date.Format("2006-01-02 15:04:05"), output.Date)
-	assert.Equal(t, mockEvent.Capacity, output.Capacity)
-	assert.Equal(t, mockEvent.Price, output.Price)
-	assert.Equal(t, mockEvent.PartnerID, output.PartnerID)
+	assert.Equal(t, input.NumberOfSpots, len(output.Spots))
+
+	assert.Equal(t, "A1", output.Spots[0].Name)
+	assert.Equal(t, "A2", output.Spots[1].Name)
 
 	// Assert that the mock repository was called
 	mockRepo.AssertExpectations(t)
