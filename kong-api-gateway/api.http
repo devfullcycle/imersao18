@@ -1,0 +1,12 @@
+###
+GET http://localhost:8000/partner1/events
+
+###
+GET http://localhost:8000/partner2/events
+
+
+###
+POST http://localhost:8000/partner1/events/1/reserve
+
+###
+POST http://localhost:8000/partner2/eventos/1/reservar
