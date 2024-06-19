@@ -22,4 +22,7 @@ services:
       KONG_ADMIN_GUI_URL: http://localhost:8002
     volumes:
       - ./kong/declarative:/kong/declarative
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  
 
