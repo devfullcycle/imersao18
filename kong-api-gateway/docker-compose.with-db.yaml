@@ -13,7 +13,7 @@ services:
       - 8004:8004
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: localhost
+      KONG_PG_HOST: db
       KONG_PG_DATABASE: kong
       KONG_PG_USER: kong
       KONG_PG_PASSWORD: kong
@@ -52,10 +52,9 @@ services:
   kong-migrations:
     image: kong:3.7
     command: kong migrations bootstrap
-    network_mode: "host"
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: localhost
+      KONG_PG_HOST: db
       KONG_PG_DATABASE: kong
       KONG_PG_USER: kong
       KONG_PG_PASSWORD: kong
