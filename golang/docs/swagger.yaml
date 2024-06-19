@@ -1,0 +1,353 @@
+basePath: /
+definitions:
+  http.CreateSpotsRequest:
+    properties:
+      number_of_spots:
+        type: integer
+    type: object
+  http.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  usecase.BuyTicketsInputDTO:
+    properties:
+      card_hash:
+        type: string
+      email:
+        type: string
+      event_id:
+        type: string
+      spots:
+        items:
+          type: string
+        type: array
+      ticket_type:
+        type: string
+    type: object
+  usecase.BuyTicketsOutputDTO:
+    properties:
+      tickets:
+        items:
+          $ref: '#/definitions/usecase.TicketDTO'
+        type: array
+    type: object
+  usecase.CreateEventInputDTO:
+    properties:
+      capacity:
+        type: integer
+      date:
+        type: string
+      image_url:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      organization:
+        type: string
+      partner_id:
+        type: integer
+      price:
+        type: number
+      rating:
+        type: string
+    type: object
+  usecase.CreateEventOutputDTO:
+    properties:
+      capacity:
+        type: integer
+      date:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      organization:
+        type: string
+      partner_id:
+        type: integer
+      price:
+        type: number
+      rating:
+        type: string
+    type: object
+  usecase.CreateSpotsOutputDTO:
+    properties:
+      spots:
+        items:
+          $ref: '#/definitions/usecase.SpotDTO'
+        type: array
+    type: object
+  usecase.EventDTO:
+    properties:
+      capacity:
+        type: integer
+      date:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      organization:
+        type: string
+      partner_id:
+        type: integer
+      price:
+        type: number
+      rating:
+        type: string
+    type: object
+  usecase.GetEventOutputDTO:
+    properties:
+      capacity:
+        type: integer
+      date:
+        type: string
+      id:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      organization:
+        type: string
+      partner_id:
+        type: integer
+      price:
+        type: number
+      rating:
+        type: string
+    type: object
+  usecase.ListEventsOutputDTO:
+    properties:
+      events:
+        items:
+          $ref: '#/definitions/usecase.EventDTO'
+        type: array
+    type: object
+  usecase.ListSpotsOutputDTO:
+    properties:
+      event:
+        $ref: '#/definitions/usecase.EventDTO'
+      spots:
+        items:
+          $ref: '#/definitions/usecase.SpotDTO'
+        type: array
+    type: object
+  usecase.SpotDTO:
+    properties:
+      event_id:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      reserved:
+        type: boolean
+      status:
+        type: string
+      ticket_id:
+        type: string
+    type: object
+  usecase.TicketDTO:
+    properties:
+      id:
+        type: string
+      price:
+        type: number
+      spot_id:
+        type: string
+      ticket_type:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a server for managing events. Imersão Full Cycle
+  title: Events API
+  version: "1.0"
+paths:
+  /checkout:
+    post:
+      consumes:
+      - application/json
+      description: Buy tickets for a specific event
+      parameters:
+      - description: Input data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/usecase.BuyTicketsInputDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usecase.BuyTicketsOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Buy tickets for an event
+      tags:
+      - Events
+  /events:
+    get:
+      consumes:
+      - application/json
+      description: Get all events with their details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usecase.ListEventsOutputDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: List all events
+      tags:
+      - Events
+    post:
+      consumes:
+      - application/json
+      description: Create a new event with the given details
+      parameters:
+      - description: Input data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/usecase.CreateEventInputDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/usecase.CreateEventOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create a new event
+      tags:
+      - Events
+  /events/{eventID}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of an event by ID
+      parameters:
+      - description: Event ID
+        in: path
+        name: eventID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usecase.GetEventOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get event details
+      tags:
+      - Events
+  /events/{eventID}/spots:
+    get:
+      consumes:
+      - application/json
+      description: List all spots for a specific event
+      parameters:
+      - description: Event ID
+        in: path
+        name: eventID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usecase.ListSpotsOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: List spots for an event
+      tags:
+      - Events
+    post:
+      consumes:
+      - application/json
+      description: Create a specified number of spots for an event
+      parameters:
+      - description: Event ID
+        in: path
+        name: eventID
+        required: true
+        type: string
+      - description: Input data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateSpotsRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/usecase.CreateSpotsOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Create spots for an event
+      tags:
+      - Events
+swagger: "2.0"
