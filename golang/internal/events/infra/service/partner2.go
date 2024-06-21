@@ -27,9 +27,15 @@ type Partner2ReservationResponse struct {
 }
 
 func (p *Partner2) MakeReservation(req *ReservationRequest) ([]ReservationResponse, error) {
+	TipoIngresso := req.TicketKind
+	if TipoIngresso == "full" {
+		TipoIngresso = "inteira"
+	} else {
+		TipoIngresso = "meia"
+	}
 	partnerReq := Partner2ReservationRequest{
 		Lugares:      req.Spots,
-		TipoIngresso: req.TicketType,
+		TipoIngresso: TipoIngresso,
 		Email:        req.Email,
 	}
 

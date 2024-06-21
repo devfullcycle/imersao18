@@ -20,13 +20,9 @@
     "paths": {
       "@app/core": [
         "libs/core/src",
-        "libs/core/src",
-        "libs/core/src"
       ],
       "@app/core/*": [
         "libs/core/src/*",
-        "libs/core/src/*",
-        "libs/core/src/*"
       ]
     }
   }

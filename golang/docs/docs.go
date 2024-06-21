@@ -315,7 +315,7 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "ticket_type": {
+                "ticket_kind": {
                     "type": "string"
                 }
             }
@@ -536,7 +536,7 @@ const docTemplate = `{
                 "spot_id": {
                     "type": "string"
                 },
-                "ticket_type": {
+                "ticket_kind": {
                     "type": "string"
                 }
             }

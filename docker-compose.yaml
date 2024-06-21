@@ -1,0 +1,5 @@
+include:
+  - golang/docker-compose.yaml
+  - nestjs-partners-api/docker-compose.yaml
+  - nextjs-frontend/docker-compose.yaml
+  - kong-api-gateway/docker-compose.with-dbless.yaml

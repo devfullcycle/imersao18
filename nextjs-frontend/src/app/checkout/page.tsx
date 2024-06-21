@@ -5,7 +5,10 @@ import { EventModel } from "../../models";
 import { CheckoutForm } from "./CheckoutForm";
 
 export async function getEvent(eventId: string): Promise<EventModel> {
-  const response = await fetch(`http://localhost:8080/events/${eventId}`, {
+  const response = await fetch(`${process.env.GOLANG_API_URL}/events/${eventId}`, {
+    headers: {
+      "apikey": process.env.GOLANG_API_TOKEN as string
+    },
     cache: "no-store",
     next: {
       tags: [`events/${eventId}`],
@@ -59,6 +62,7 @@ export default async function CheckoutPage() {
               type="email"
               name="email"
               className="mt-2 border-solid rounded p-2 h-10 bg-input"
+              defaultValue={"test@test.com"}
             />
           </div>
           <div className="flex flex-col">
@@ -67,6 +71,7 @@ export default async function CheckoutPage() {
               type="text"
               name="card_name"
               className="mt-2 border-solid rounded p-2 h-10 bg-input"
+              defaultValue={"Teste Teste"}
             />
           </div>
           <div className="flex flex-col">
@@ -75,6 +80,7 @@ export default async function CheckoutPage() {
               type="card_number"
               name="cc"
               className="mt-2 border-solid rounded p-2 h-10 bg-input"
+              defaultValue={"4111111111111111"}
             />
           </div>
           <div className="flex flex-wrap sm:justify-between">
@@ -84,6 +90,7 @@ export default async function CheckoutPage() {
                 type="text"
                 name="expire_date"
                 className="mt-2 sm:w-[240px] border-solid rounded p-2 h-10 bg-input"
+                defaultValue={"12/2024"}
               />
             </div>
             <div className="flex w-full flex-col md:w-auto">
@@ -92,6 +99,7 @@ export default async function CheckoutPage() {
                 type="text"
                 name="cvv"
                 className="mt-2 sm:w-[240px] border-solid rounded p-2 h-10 bg-input"
+                defaultValue={"123"}
               />
             </div>
           </div>

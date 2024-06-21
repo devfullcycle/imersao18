@@ -3,7 +3,10 @@ import { EventModel } from "../models";
 import { EventCard } from "../components/EventCard";
 
 export async function getEvents(): Promise<EventModel[]> {
-  const response = await fetch("http://localhost:8080/events", {
+  const response = await fetch(`${process.env.GOLANG_API_URL}/events`, {
+    headers: {
+      "apikey": process.env.GOLANG_API_TOKEN as string
+    },
     cache: "no-store",
     // next: {
     //   tags: ["events"],

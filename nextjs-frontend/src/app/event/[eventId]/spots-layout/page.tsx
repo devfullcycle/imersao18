@@ -11,8 +11,11 @@ export async function getSpots(eventId: string): Promise<{
   spots: SpotModel[];
 }> {
   const response = await fetch(
-    `http://localhost:8080/events/${eventId}/spots`,
+    `${process.env.GOLANG_API_URL}/events/${eventId}/spots`,
     {
+      headers: {
+        "apikey": process.env.GOLANG_API_TOKEN as string
+      },
       cache: "no-store",
       next: {
         tags: [`events/${eventId}`],

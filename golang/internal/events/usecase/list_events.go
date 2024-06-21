@@ -47,6 +47,7 @@ func (uc *ListEventsUseCase) Execute() (*ListEventsOutputDTO, error) {
 			Capacity:     event.Capacity,
 			Price:        event.Price,
 			PartnerID:    event.PartnerID,
+			ImageURL:     event.ImageURL,
 		}
 	}
 

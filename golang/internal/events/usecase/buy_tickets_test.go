@@ -72,7 +72,7 @@ func TestBuyTicketsUseCase(t *testing.T) {
 	input := BuyTicketsInputDTO{
 		EventID:    eventID,
 		Spots:      []string{"A1", "A2"},
-		TicketType: "full",
+		TicketKind: "full",
 		CardHash:   "hash_do_cartao",
 		Email:      "test@test.com",
 	}
@@ -85,11 +85,11 @@ func TestBuyTicketsUseCase(t *testing.T) {
 
 	// Verifica as propriedades dos tickets
 	assert.Equal(t, "1", output.Tickets[0].SpotID)
-	assert.Equal(t, "full", output.Tickets[0].TicketType)
+	assert.Equal(t, "full", output.Tickets[0].TicketKind)
 	assert.Equal(t, 50.0, output.Tickets[0].Price)
 
 	assert.Equal(t, "2", output.Tickets[1].SpotID)
-	assert.Equal(t, "full", output.Tickets[1].TicketType)
+	assert.Equal(t, "full", output.Tickets[1].TicketKind)
 	assert.Equal(t, 50.0, output.Tickets[1].Price)
 
 	mockRepo.AssertExpectations(t)

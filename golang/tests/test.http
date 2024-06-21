@@ -30,7 +30,7 @@ Content-Type: application/json
 {
     "event_id": "2f8c9dcb-56ea-4e9b-a1c6-5fe711c47416",
     "spots": ["A1"],
-    "ticket_type": "full",
+    "ticket_kind": "full",
     "card_hash": "example_card_hash",
     "email": "user@example.com"
 }

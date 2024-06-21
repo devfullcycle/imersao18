@@ -29,7 +29,7 @@ type Partner1ReservationResponse struct {
 func (p *Partner1) MakeReservation(req *ReservationRequest) ([]ReservationResponse, error) {
 	partnerReq := Partner1ReservationRequest{
 		Spots:      req.Spots,
-		TicketKind: req.TicketType,
+		TicketKind: req.TicketKind,
 		Email:      req.Email,
 	}
 

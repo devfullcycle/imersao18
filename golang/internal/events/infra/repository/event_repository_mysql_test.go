@@ -79,7 +79,7 @@ func setupTestDB() error {
 			id VARCHAR(36) NOT NULL PRIMARY KEY,
 			event_id VARCHAR(36) NOT NULL,
 			spot_id VARCHAR(36) NOT NULL,
-			ticket_type VARCHAR(10) NOT NULL,
+			ticket_kind VARCHAR(10) NOT NULL,
 			price FLOAT NOT NULL,
 			FOREIGN KEY (event_id) REFERENCES events(id),
 			FOREIGN KEY (spot_id) REFERENCES spots(id)
@@ -192,7 +192,7 @@ func TestMysqlEventRepository(t *testing.T) {
 			ID:         ticketID,
 			EventID:    eventID,
 			Spot:       spot,
-			TicketType: domain.TicketTypeFull,
+			TicketKind: domain.TicketKindFull,
 			Price:      50.0,
 		}
 		err = repo.CreateTicket(ticket)

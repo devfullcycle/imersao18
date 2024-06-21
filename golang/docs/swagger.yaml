@@ -22,7 +22,7 @@ definitions:
         items:
           type: string
         type: array
-      ticket_type:
+      ticket_kind:
         type: string
     type: object
   usecase.BuyTicketsOutputDTO:
@@ -166,7 +166,7 @@ definitions:
         type: number
       spot_id:
         type: string
-      ticket_type:
+      ticket_kind:
         type: string
     type: object
 host: localhost:8080

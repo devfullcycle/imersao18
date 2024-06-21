@@ -1,0 +1,10 @@
+services:
+
+  nextjs:
+    build: .
+    ports:
+      - 3002:3000
+    volumes:
+      - .:/home/node/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

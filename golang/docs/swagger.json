@@ -309,7 +309,7 @@
                         "type": "string"
                     }
                 },
-                "ticket_type": {
+                "ticket_kind": {
                     "type": "string"
                 }
             }
@@ -530,7 +530,7 @@
                 "spot_id": {
                     "type": "string"
                 },
-                "ticket_type": {
+                "ticket_kind": {
                     "type": "string"
                 }
             }
