@@ -2,27 +2,26 @@
 
 ## Descrição
 
-Repositório do FrontEnd da aplicação feito em Next.js
+Repositório da API feita em Golang (Venda de ingressos)
 
 ## Rodar a aplicação
 
-Dentro da pasta `next-frontend` execute o comando abaixo para rodar o container `Docker`:
+Dentro da pasta `golang` execute o comando abaixo para rodar os containers `Docker`:
 ```
 docker compose up
 ```
 
-Quando o container estiver pronto, precisamos acessar o container do `nextjs` e executar a aplicação:
+Quando os containers estiverem prontos, precisamos acessar o container do `golang` e executar a aplicação:
 
 ```
 // entrar no container:
-docker compose exec nextjs bash
+docker compose exec golang sh
 
 // instalar as dependências:
-npm install
+go mod tidy
 
 // executar a aplicação:
-npm run dev
-
+go run cmd/events/main.go
 ```
 
 ### Para Windows 
